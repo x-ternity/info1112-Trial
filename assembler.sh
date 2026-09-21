@@ -30,12 +30,12 @@ if [ ! -s "$1" ]; then
     exit 1
 fi
 
-# ---------- split the .vsc file into its three parts ----------
+#Spltting .vsc file into 3 parts
 n_values=$(head -n 1 "$1")
 statics=$(tail -n +2 "$1" | head -n "$n_values")
 instructions=$(tail -n +$((n_values + 2)) "$1")
 
-# ---------- collect every byte into a list ----------
+#turning the bytes into a list
 bytes=()
 
 if [ "$n_values" -gt 0 ]; then
@@ -68,14 +68,14 @@ while IFS=, read -r name reg addr; do
     bytes+=( "$addr" )
 done <<< "$instructions"
 
-# ---------- say what kind of program it is ----------
+#Echo what type of program it is
 if [ "$kind" = "QUIT" ]; then
     echo "It is a QUIT program"
 else
     echo "It is an ADD/SUB program"
 fi
 
-# ---------- write the .bin file and print it ----------
+#Writing and printing the .bin files
 outfile="${1%.vsc}.bin"
 : > "$outfile"
 
@@ -86,3 +86,4 @@ for b in "${bytes[@]}"; do
 done
 
 exit 0
+
